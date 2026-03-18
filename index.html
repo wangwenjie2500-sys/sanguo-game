@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>三国霸业 - H5 SLG 游戏</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 标题画面 -->
+        <div id="title-screen" class="screen active">
+            <h1 class="game-title">三国霸业</h1>
+            <p class="subtitle">经典 SLG 策略游戏</p>
+            <button id="start-btn" class="menu-btn">开始游戏</button>
+            <button id="load-btn" class="menu-btn">继续游戏</button>
+            <button id="help-btn" class="menu-btn">游戏帮助</button>
+        </div>
+
+        <!-- 游戏主界面 -->
+        <div id="game-screen" class="screen">
+            <!-- 顶部信息栏 -->
+            <div id="top-bar">
+                <div class="info-item">
+                    <span class="label">年份:</span>
+                    <span id="year-display">190 年</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">回合:</span>
+                    <span id="turn-display">1</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">势力:</span>
+                    <span id="faction-display">蜀汉</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">金钱:</span>
+                    <span id="gold-display">1000</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">粮食:</span>
+                    <span id="food-display">1000</span>
+                </div>
+                <button id="menu-btn" class="small-btn">菜单</button>
+            </div>
+
+            <!-- 地图区域 -->
+            <div id="map-container">
+                <canvas id="game-map"></canvas>
+            </div>
+
+            <!-- 底部操作栏 -->
+            <div id="action-bar">
+                <button class="action-btn" data-action="move">行军</button>
+                <button class="action-btn" data-action="attack">攻击</button>
+                <button class="action-btn" data-action="recruit">征兵</button>
+                <button class="action-btn" data-action="develop">发展</button>
+                <button class="action-btn" data-action="diplomacy">外交</button>
+                <button class="action-btn" data-action="end">结束</button>
+            </div>
+        </div>
+
+        <!-- 菜单弹窗 -->
+        <div id="menu-modal" class="modal">
+            <div class="modal-content">
+                <h2>游戏菜单</h2>
+                <button class="modal-btn" data-action="save">保存游戏</button>
+                <button class="modal-btn" data-action="load">读取游戏</button>
+                <button class="modal-btn" data-action="settings">游戏设置</button>
+                <button class="modal-btn" data-action="quit">返回标题</button>
+                <button class="modal-btn close-modal">关闭</button>
+            </div>
+        </div>
+
+        <!-- 战斗界面 -->
+        <div id="battle-screen" class="screen">
+            <div id="battle-info">
+                <div class="battle-side">
+                    <h3 id="attacker-name">进攻方</h3>
+                    <div class="battle-stats">
+                        <p>兵力：<span id="attacker-troops">0</span></p>
+                        <p>武将：<span id="attacker-general">--</span></p>
+                    </div>
+                </div>
+                <div class="vs">VS</div>
+                <div class="battle-side">
+                    <h3 id="defender-name">防守方</h3>
+                    <div class="battle-stats">
+                        <p>兵力：<span id="defender-troops">0</span></p>
+                        <p>武将：<span id="defender-general">--</span></p>
+                    </div>
+                </div>
+            </div>
+            <div id="battle-log"></div>
+            <div id="battle-controls">
+                <button id="battle-auto" class="battle-btn">自动战斗</button>
+                <button id="battle-manual" class="battle-btn">手动指挥</button>
+                <button id="battle-retreat" class="battle-btn">撤退</button>
+            </div>
+        </div>
+
+        <!-- 帮助界面 -->
+        <div id="help-modal" class="modal">
+            <div class="modal-content help-content">
+                <h2>游戏帮助</h2>
+                <div class="help-section">
+                    <h3>🎮 基本操作</h3>
+                    <ul>
+                        <li><strong>行军</strong>: 选择部队移动到相邻城池</li>
+                        <li><strong>攻击</strong>: 攻击相邻的敌方城池</li>
+                        <li><strong>征兵</strong>: 在己方城池招募士兵</li>
+                        <li><strong>发展</strong>: 提升城池的金钱和粮食产量</li>
+                        <li><strong>外交</strong>: 与其他势力结盟或停战</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h3>⚔️ 战斗系统</h3>
+                    <ul>
+                        <li>兵力多的一方有优势</li>
+                        <li>武将武力影响战斗力</li>
+                        <li>地形会影响战斗结果</li>
+                        <li>可以选择自动或手动战斗</li>
+                    </ul>
+                </div>
+                <div class="help-section">
+                    <h3>🏯 胜利条件</h3>
+                    <ul>
+                        <li>消灭所有敌对势力</li>
+                        <li>统一全国</li>
+                    </ul>
+                </div>
+                <button class="modal-btn close-modal">我知道了</button>
+            </div>
+        </div>
+
+        <!-- 消息提示 -->
+        <div id="message-toast"></div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/general.js"></script>
+    <script src="js/battle.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
